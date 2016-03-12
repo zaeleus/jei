@@ -2,8 +2,10 @@ module Jei
   class Document
     class Builder
       # @return [Document]
-      def self.build(serializer, options = {})
+      def self.build(resource, options = {})
         document = Document.new(options)
+
+        serializer = Serializer.factory(resource)
 
         data_node = DataNode.new
         data_node.children << ResourceIdentifierNode.new(serializer)
@@ -34,16 +36,16 @@ module Jei
 
               resources = relationship.evaluate(serializer)
 
-              resources.each do |resource|
-                s = Serializer.factory(resource)
+              resources.each do |r|
+                s = Serializer.factory(r)
                 relationship_data_node.children << ResourceIdentifierNode.new(s)
               end
 
               node.children << relationship_data_node
             else
               relationship_data_node = DataNode.new
-              resource = relationship.evaluate(serializer)
-              s = Serializer.factory(resource)
+              r = relationship.evaluate(serializer)
+              s = Serializer.factory(r)
               relationship_data_node.children << ResourceIdentifierNode.new(s)
               node.children << relationship_data_node
             end
