@@ -24,6 +24,21 @@ module Jei
         end
       end
 
+      context 'when options[:links] is a list of links' do
+        it 'adds a LinksNode with LinkNode children' do
+          links = [
+            Link.new(:a, 'https://a.example.com'),
+            Link.new(:b, 'https://b.example.com')
+          ]
+
+          document = Document.new(links: links)
+          node = document.root.children.first
+
+          expect(node).to be_kind_of(LinksNode)
+          expect(node.children.length).to be(2)
+        end
+      end
+
       context 'when options[:meta] is set' do
         it 'adds a MetaNode to the root' do
           document = Document.new(meta: { foo: 'bar' })
