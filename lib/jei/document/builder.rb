@@ -5,6 +5,16 @@ module Jei
       def self.build(resource, options = {})
         document = Document.new(options)
 
+        document.root.children << data_node(resource)
+
+        if options[:include]
+          document.root.children << included_node(resource, options[:include])
+        end
+
+        document
+      end
+
+      def self.data_node(resource)
         serializer = Serializer.factory(resource)
 
         data_node = DataNode.new
@@ -56,9 +66,25 @@ module Jei
           data_node.children << relationships_node
         end
 
-        document.root.children << data_node
+        data_node
+      end
 
-        document
+      def self.included_node(resource, include_paths)
+        paths = Path.parse(include_paths)
+
+        resources = Set.new
+
+        paths.each do |path|
+          path.traverse(resource, resources)
+        end
+
+        included_node = IncludedNode.new
+
+        resources.each do |r|
+          included_node.children << data_node(r)
+        end
+
+        included_node
       end
     end
   end
