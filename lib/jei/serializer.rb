@@ -22,15 +22,17 @@ module Jei
     end
 
     # @param [Symbol] name
-    def self.belongs_to(name, &blk)
+    def self.belongs_to(name, options = {}, &blk)
       value = block_given? ? blk : name
-      serialization_map[:relationships][name] = BelongsToRelationship.new(name, value)
+      serialization_map[:relationships][name] =
+        BelongsToRelationship.new(name, value, options)
     end
 
     # @param [Symbol] name
-    def self.has_many(name, &blk)
+    def self.has_many(name, options = {}, &blk)
       value = block_given? ? blk : name
-      serialization_map[:relationships][name] = HasManyRelationship.new(name, value)
+      serialization_map[:relationships][name] =
+        HasManyRelationship.new(name, value, options)
     end
 
     # @return [Serializer]

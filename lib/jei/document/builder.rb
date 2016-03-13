@@ -41,6 +41,18 @@ module Jei
           relationships.values.each do |relationship|
             node = RelationshipNode.new(relationship)
 
+            if relationship.options[:links]
+              links_node = LinksNode.new
+              links = relationship.links(serializer)
+
+              links.each do |link|
+                link_node = LinkNode.new(link)
+                links_node.children << link_node
+              end
+
+              node.children << links_node
+            end
+
             if relationship.is_a? HasManyRelationship
               relationship_data_node = CollectionDataNode.new
 
