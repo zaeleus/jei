@@ -5,10 +5,35 @@ module Jei
       def self.build(resource, options = {})
         document = Document.new(options)
 
-        document.root.children << data_node(resource)
+        if resource.is_a?(Enumerable)
+          collection_data_node = CollectionDataNode.new
 
-        if options[:include]
-          document.root.children << included_node(resource, options[:include])
+          if options[:include]
+            paths = Path.parse(options[:include])
+            resources = Set.new
+
+            resource.each do |r|
+              gather_resources(r, paths, resources)
+              collection_data_node.children << resource_node(r)
+            end
+
+            document.root.children << included_node(resources)
+          else
+            resource.each do |r|
+              collection_data_node.children << resource_node(r)
+            end
+          end
+
+          document.root.children << collection_data_node
+        else
+          document.root.children << data_node(resource)
+
+          if options[:include]
+            paths = Path.parse(options[:include])
+            resources = Set.new
+            gather_resources(resource, paths, resources)
+            document.root.children << included_node(resources)
+          end
         end
 
         document
@@ -88,22 +113,20 @@ module Jei
         resource_node
       end
 
-      def self.included_node(resource, include_paths)
-        paths = Path.parse(include_paths)
-
-        resources = Set.new
-
-        paths.each do |path|
-          path.traverse(resource, resources)
-        end
-
+      def self.included_node(resources)
         included_node = IncludedNode.new
 
-        resources.each do |r|
-          included_node.children << resource_node(r)
+        resources.each do |resource|
+          included_node.children << resource_node(resource)
         end
 
         included_node
+      end
+
+      def self.gather_resources(resource, paths, resources)
+        paths.each do |path|
+          path.traverse(resource, resources)
+        end
       end
     end
   end
