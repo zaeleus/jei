@@ -85,23 +85,25 @@ module Jei
               node.children << links_node
             end
 
-            if relationship.is_a? HasManyRelationship
-              relationship_data_node = CollectionDataNode.new
+            if !relationship.options[:no_data]
+              if relationship.is_a? HasManyRelationship
+                relationship_data_node = CollectionDataNode.new
 
-              resources = relationship.evaluate(serializer)
+                resources = relationship.evaluate(serializer)
 
-              resources.each do |r|
+                resources.each do |r|
+                  s = Serializer.factory(r)
+                  relationship_data_node.children << ResourceIdentifierNode.new(s)
+                end
+
+                node.children << relationship_data_node
+              else
+                relationship_data_node = DataNode.new
+                r = relationship.evaluate(serializer)
                 s = Serializer.factory(r)
                 relationship_data_node.children << ResourceIdentifierNode.new(s)
+                node.children << relationship_data_node
               end
-
-              node.children << relationship_data_node
-            else
-              relationship_data_node = DataNode.new
-              r = relationship.evaluate(serializer)
-              s = Serializer.factory(r)
-              relationship_data_node.children << ResourceIdentifierNode.new(s)
-              node.children << relationship_data_node
             end
 
             relationships_node.children << node
