@@ -15,10 +15,17 @@ module Jei
       end
 
       def self.data_node(resource)
+        data_node = DataNode.new
+        data_node.children << resource_node(resource)
+        data_node
+      end
+
+      def self.resource_node(resource)
         serializer = Serializer.factory(resource)
 
-        data_node = DataNode.new
-        data_node.children << ResourceIdentifierNode.new(serializer)
+        resource_node = ResourceNode.new
+
+        resource_node.children << ResourceIdentifierNode.new(serializer)
 
         attributes = serializer.attributes
 
@@ -30,7 +37,7 @@ module Jei
             attributes_node.children << node
           end
 
-          data_node.children << attributes_node
+          resource_node.children << attributes_node
         end
 
         relationships = serializer.relationships
@@ -75,10 +82,10 @@ module Jei
             relationships_node.children << node
           end
 
-          data_node.children << relationships_node
+          resource_node.children << relationships_node
         end
 
-        data_node
+        resource_node
       end
 
       def self.included_node(resource, include_paths)
@@ -93,7 +100,7 @@ module Jei
         included_node = IncludedNode.new
 
         resources.each do |r|
-          included_node.children << data_node(r)
+          included_node.children << resource_node(r)
         end
 
         included_node

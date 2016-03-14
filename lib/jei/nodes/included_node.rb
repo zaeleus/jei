@@ -5,7 +5,7 @@ module Jei
       context[:included] = children.map do |child|
         data = {}
         child.visit(data)
-        data[:data]
+        data
       end
     end
   end
