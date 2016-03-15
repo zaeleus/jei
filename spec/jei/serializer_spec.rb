@@ -2,6 +2,69 @@ require 'spec_helper'
 
 module Jei
   describe Serializer do
+    describe '.serialization_map' do
+      it 'is cached' do
+        klass = Class.new(Serializer)
+        map_a = klass.serialization_map
+        map_b = klass.serialization_map
+        expect(map_a).to be(map_b)
+      end
+    end
+
+    describe '.attributes' do
+      it 'adds multiple attributes to the serialization map' do
+        klass = Class.new(Serializer)
+        klass.attributes(:kind, :name, :release_date)
+
+        attributes = klass.serialization_map[:attributes]
+
+        expect(attributes[:kind]).to be_kind_of(Attribute)
+        expect(attributes[:name]).to be_kind_of(Attribute)
+        expect(attributes[:release_date]).to be_kind_of(Attribute)
+      end
+    end
+
+    describe '.attribute' do
+      it 'adds an attribute to the serialization map' do
+        klass = Class.new(Serializer)
+        klass.attribute(:name)
+
+        attributes = klass.serialization_map[:attributes]
+
+        expect(attributes[:name]).to be_kind_of(Attribute)
+      end
+    end
+
+    describe '.belongs_to' do
+      it 'adds a belongs-to relationship to the serialization map' do
+        klass = Class.new(Serializer)
+        klass.belongs_to(:artist)
+
+        relationships = klass.serialization_map[:relationships]
+
+        expect(relationships[:artist]).to be_kind_of(BelongsToRelationship)
+      end
+    end
+
+    describe '.has_many' do
+      it 'adds a has-many to relationship to the serialization map' do
+        klass = Class.new(Serializer)
+        klass.has_many(:albums)
+
+        relationships = klass.serialization_map[:relationships]
+
+        expect(relationships[:albums]).to be_kind_of(HasManyRelationship)
+      end
+    end
+
+    describe '.factory' do
+      it 'instantiates a new serializer based on the name of the resource' do
+        artist = Artist.new
+        serializer = Serializer.factory(artist)
+        expect(serializer).to be_kind_of(ArtistSerializer)
+      end
+    end
+
     describe '#id' do
       it 'returns the id of the resource as a string' do
         artist = Artist.new(id: 37)
@@ -46,6 +109,14 @@ module Jei
           expect(relationships[:artist]).to be_kind_of(BelongsToRelationship)
           expect(relationships[:tracks]).to be_kind_of(HasManyRelationship)
          end
+      end
+    end
+
+    describe '#links' do
+      it 'returns nil by default' do
+        artist = Artist.new
+        serializer = Serializer.new(artist)
+        expect(serializer.links).to be(nil)
       end
     end
   end
