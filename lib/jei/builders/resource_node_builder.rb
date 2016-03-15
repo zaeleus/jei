@@ -16,6 +16,12 @@ module Jei
           node.children << RelationshipsNodeBuilder.build(serializer)
         end
 
+        links = serializer.links
+
+        if links
+          node.children << LinksNodeBuilder.build(links)
+        end
+
         node
       end
     end

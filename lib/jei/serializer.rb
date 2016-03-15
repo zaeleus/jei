@@ -66,5 +66,10 @@ module Jei
     def relationships
       self.class.serialization_map[:relationships]
     end
+
+    # @return [Array<Link>, nil]
+    def links
+      nil
+    end
   end
 end
