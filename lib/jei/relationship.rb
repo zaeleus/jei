@@ -6,13 +6,14 @@ module Jei
     # @param [Symbol] name
     # @param [Proc, Symbol] value
     # @param [Hash<Symbol, Object>] options
-    # @option options [Boolean] :no_data Whether to exclude data from the
-    #   relationship.
+    # @option options [Boolean] :data Whether to include data in the
+    #   relationship [default: true].
     # @option options [Proc] :links A Proc that evaulates to a list of links.
     # @option options [Class] :serializer Override the default serializer used
     #   for related resources.
     def initialize(name, value = name, options = {})
       super(name, value)
+      options[:data] = options.fetch(:data, true)
       @options = options
     end
 

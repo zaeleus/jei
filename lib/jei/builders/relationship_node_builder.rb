@@ -7,7 +7,7 @@ module Jei
       def self.build(relationship, serializer)
         node = RelationshipNode.new(relationship)
 
-        if !relationship.options[:no_data]
+        if relationship.options[:data]
           node.children <<
             case relationship
             when BelongsToRelationship
