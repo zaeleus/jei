@@ -10,7 +10,7 @@ module Jei
 
         root.children << JSONAPINode.new if options[:jsonapi]
         root.children << MetaNode.new(options[:meta]) if options[:meta]
-        root.children << Builder::LinksNodeBuilder.build(links) if options[:links]
+        root.children << LinksNodeBuilder.build(options[:links]) if options[:links]
 
         if resource.nil?
           root.children << DataNode.new
