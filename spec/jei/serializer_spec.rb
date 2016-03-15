@@ -119,5 +119,22 @@ module Jei
         expect(serializer.links).to be(nil)
       end
     end
+
+    describe '#key' do
+      it 'returns a (type, id) tuple' do
+        artist = Artist.new(id: 1)
+        serializer = Serializer.new(artist)
+        expect(serializer.key).to eq(['artists', '1'])
+      end
+    end
+
+    describe '#hash' do
+      it 'generates a hash value for the serializer using its key' do
+        artist = Artist.new(id: 1)
+        serializer = Serializer.new(artist)
+        expected = ['artists', '1'].hash
+        expect(serializer.hash).to eq(expected)
+      end
+    end
   end
 end

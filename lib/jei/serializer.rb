@@ -71,5 +71,15 @@ module Jei
     def links
       nil
     end
+
+    # @return [Array<String>]
+    def key
+      [type, id]
+    end
+
+    # @return [Fixnum]
+    def hash
+      key.hash
+    end
   end
 end

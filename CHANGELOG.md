@@ -2,8 +2,10 @@
 
 ## HEAD
 
-  * [FIX] Fix include usage when serializing a collection
+* [CHANGE] Resources are compared via a `(type, id)` tuple rather than
+  object identity.
+* [FIX] Fix include usage when serializing a collection
 
 ## 0.1.0 (2016-03-16)
 
-  * Initial release
+* Initial release
