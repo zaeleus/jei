@@ -6,6 +6,13 @@ module Jei
     # @return [DocumentNode]
     attr_reader :root
 
+    # @param [Object] resource
+    # @param [Hash<Symbol, Object>] options
+    # @return [Document]
+    def self.build(resource, options = {})
+      Builder::DocumentBuilder.build(resource, options)
+    end
+
     # @param [Hash<Symbol, Object>] options
     # @option options [Boolean] :jsonapi Add the top level JSON API object to
     #   the document.
@@ -39,14 +46,7 @@ module Jei
     #
     # @param [Array<Link>] links
     def add_links(links)
-      links_node = LinksNode.new
-
-      links.each do |link|
-        link_node = LinkNode.new(link)
-        links_node.children << link_node
-      end
-
-      root.children << links_node
+      root.children << Builder::LinksNodeBuilder.build(links)
     end
 
     # @return [Hash<Symbol, Object>]
