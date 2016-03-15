@@ -12,6 +12,11 @@ module Jei
         root.children << MetaNode.new(options[:meta]) if options[:meta]
         root.children << Builder::LinksNodeBuilder.build(links) if options[:links]
 
+        if resource.nil?
+          root.children << DataNode.new
+          return document
+        end
+
         if resource.is_a?(Enumerable)
           node = CollectionDataNode.new
 

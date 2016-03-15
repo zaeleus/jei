@@ -4,6 +4,14 @@ module Jei
   module Builder
     describe DocumentBuilder do
       describe '.build' do
+        context 'the resource is nil' do
+          it 'adds an empty data node' do
+            document = DocumentBuilder.build(nil)
+            expected = { data: nil }
+            expect(document.to_h).to eq(expected)
+          end
+        end
+
         context 'options[:serializer] is set to a Serializer class' do
           it 'uses the given serializer class rather than Serializer.factory' do
             artist = Artist.new(id: 1, name: 'FIESTAR')
