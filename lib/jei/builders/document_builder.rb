@@ -21,21 +21,39 @@ module Jei
 
             resource.each do |r|
               Path.find(paths, r, included_resources)
-              serializer = Serializer.factory(r)
+
+              serializer =
+                if options[:serializer]
+                  options[:serializer].new(r)
+                else
+                  Serializer.factory(r)
+                end
+
               node.children << ResourceNodeBuilder.build(serializer)
             end
 
             root.children << IncludedNode.build(included_resources)
           else
             resource.each do |r|
-              serializer = Serializer.factory(r)
+              serializer =
+                if options[:serializer]
+                  options[:serializer].new(r)
+                else
+                  Serializer.factory(r)
+                end
+
               node.children << ResourceNodeBuilder.build(serializer)
             end
           end
 
           root.children << node
         else
-          serializer = Serializer.factory(resource)
+          serializer =
+            if options[:serializer]
+              options[:serializer].new(resource)
+            else
+              Serializer.factory(resource)
+            end
 
           root.children << DataNodeBuilder.build(serializer)
 

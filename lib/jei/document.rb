@@ -14,6 +14,8 @@ module Jei
     #   data.
     # @option options [Hash<Symbol, Object>] :meta Add top level meta
     #   information to the document.
+    # @option options [Class] :serializer Override the default serializer. For
+    #   collections, this works only if all the resources are of the same type.
     # @return [Document]
     def self.build(resource, options = {})
       Builder::DocumentBuilder.build(resource, options)
