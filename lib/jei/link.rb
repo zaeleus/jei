@@ -1,6 +1,13 @@
 module Jei
   class Link
-    attr_reader :name, :href, :meta
+    # @return [String]
+    attr_reader :name
+
+    # @return [String]
+    attr_reader :href
+
+    # @return [Hash<Symbol, Object>]
+    attr_reader :meta
 
     # @param [Symbol] name
     # @param [String] href

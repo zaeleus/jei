@@ -1,6 +1,7 @@
 module Jei
   # @see http://jsonapi.org/format/1.0/#document-resource-object-relationships
   class RelationshipNode < Node
+    # @param [Relationship] relationship
     def initialize(relationship)
       super()
       @relationship = relationship

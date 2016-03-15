@@ -3,6 +3,7 @@ module Jei
     PATH_SEPARATOR = ','
     NAME_SEPARATOR = '.'
 
+    # @return [Array<Symbol>]
     attr_reader :names
 
     # @param [String] paths

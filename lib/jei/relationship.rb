@@ -1,5 +1,6 @@
 module Jei
   class Relationship < Attribute
+    # @return [Hash<Symbol, Object>] options
     attr_reader :options
 
     # @param [Symbol] name

@@ -1,4 +1,5 @@
 module Jei
+  # @see http://jsonapi.org/format/#document-top-level
   class CollectionDataNode < DataNode
     # @param [Hash<Symbol, Object>] context
     def visit(context)
