@@ -22,10 +22,10 @@ module Jei
 
           if options[:include]
             paths = Path.parse(options[:include])
-            included_resources = Set.new
+            serializers = Set.new
 
             resource.each do |r|
-              Path.find(paths, r, included_resources)
+              Path.find(paths, r, serializers)
 
               serializer =
                 if options[:serializer]
@@ -37,7 +37,7 @@ module Jei
               node.children << ResourceNodeBuilder.build(serializer)
             end
 
-            root.children << IncludedNodeBuilder.build(included_resources)
+            root.children << IncludedNodeBuilder.build(serializers)
           else
             resource.each do |r|
               serializer =
@@ -64,9 +64,9 @@ module Jei
 
           if options[:include]
             paths = Path.parse(options[:include])
-            included_resources = Set.new
-            Path.find(paths, resource, included_resources)
-            root.children << IncludedNodeBuilder.build(included_resources)
+            serializers = Set.new
+            Path.find(paths, resource, serializers)
+            root.children << IncludedNodeBuilder.build(serializers)
           end
         end
 

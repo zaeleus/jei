@@ -35,12 +35,11 @@ module Jei
       return if level >= @names.length
 
       serializer = Serializer.factory(root)
+      set << serializer
 
       name = @names[level]
       relationship = serializer.relationships[name]
       resources = [*relationship.evaluate(serializer)]
-
-      set.merge(resources)
 
       resources.each do |resource|
         walk(resource, set, level + 1)

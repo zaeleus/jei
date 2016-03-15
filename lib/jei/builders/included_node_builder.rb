@@ -1,13 +1,12 @@
 module Jei
   module Builder
     module IncludedNodeBuilder
-      # @param [Set<Object>] resources
+      # @param [Set<Serializer>] resources
       # @return [IncludedNode]
-      def self.build(resources)
+      def self.build(serializers)
         node = IncludedNode.new
 
-        resources.each do |resource|
-          serializer = Serializer.factory(resource)
+        serializers.each do |serializer|
           node.children << ResourceNodeBuilder.build(serializer)
         end
 
