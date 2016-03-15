@@ -58,10 +58,20 @@ module Jei
     end
 
     describe '.factory' do
-      it 'instantiates a new serializer based on the name of the resource' do
-        artist = Artist.new
-        serializer = Serializer.factory(artist)
-        expect(serializer).to be_kind_of(ArtistSerializer)
+      context 'a class is given' do
+        it 'instantiates a new serializer using the given class' do
+          artist = Artist.new
+          serializer = Serializer.factory(artist, ArtistSerializer)
+          expect(serializer).to be_kind_of(ArtistSerializer)
+        end
+      end
+
+      context 'a class is not given' do
+        it 'instantiates a new serializer based on the name of the resource' do
+          artist = Artist.new
+          serializer = Serializer.factory(artist)
+          expect(serializer).to be_kind_of(ArtistSerializer)
+        end
       end
     end
 

@@ -35,10 +35,11 @@ module Jei
         HasManyRelationship.new(name, value, options)
     end
 
+    # @param [Object] resource
+    # @param [Class] klass
     # @return [Serializer]
-    def self.factory(resource)
-      name = resource.class.name
-      klass = const_get("#{name}Serializer")
+    def self.factory(resource, klass = nil)
+      klass ||= const_get("#{resource.class.name}Serializer")
       klass.new(resource)
     end
 
