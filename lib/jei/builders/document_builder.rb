@@ -37,7 +37,7 @@ module Jei
               node.children << ResourceNodeBuilder.build(serializer)
             end
 
-            root.children << IncludedNode.build(included_resources)
+            root.children << IncludedNodeBuilder.build(included_resources)
           else
             resource.each do |r|
               serializer =
