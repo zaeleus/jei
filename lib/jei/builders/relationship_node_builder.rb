@@ -33,7 +33,7 @@ module Jei
         node = DataNode.new
         resource = relationship.evaluate(serializer)
 
-        serializer = Serializer.factory(resource)
+        serializer = Serializer.factory(resource, relationship.options[:serializer])
         node.children << ResourceIdentifierNode.new(serializer)
 
         node
@@ -47,7 +47,7 @@ module Jei
         resources = relationship.evaluate(serializer)
 
         resources.each do |resource|
-          serializer = Serializer.factory(resource)
+          serializer = Serializer.factory(resource, relationship.options[:serializer])
           node.children << ResourceIdentifierNode.new(serializer)
         end
 

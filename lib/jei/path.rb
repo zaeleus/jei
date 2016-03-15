@@ -15,11 +15,11 @@ module Jei
     end
 
     # @param [Array<Path>] paths
-    # @param [Object] resource
-    # @param [Set<Object>] resources
-    def self.find(paths, resource, resources)
+    # @param [Serializer] serializer
+    # @param [Set<Serializer>] serializers
+    def self.find(paths, serializer, serializers)
       paths.each do |path|
-        path.walk(resource, resources)
+        path.walk(serializer, serializers)
       end
     end
 
@@ -28,21 +28,20 @@ module Jei
       @names = names
     end
 
-    # @param [Object] root
-    # @param [Set<Object>] set
+    # @param [Serializer] serializer
+    # @param [Set<Serializer>] serializers
     # @param [Integer] level
-    def walk(root, set = Set.new, level = 0)
+    def walk(serializer, serializers = Set.new, level = 0)
       return if level >= @names.length
-
-      serializer = Serializer.factory(root)
-      set << serializer
 
       name = @names[level]
       relationship = serializer.relationships[name]
       resources = [*relationship.evaluate(serializer)]
 
       resources.each do |resource|
-        walk(resource, set, level + 1)
+        serializer = Serializer.factory(resource, relationship.options[:serializer])
+        serializers << serializer
+        walk(serializer, serializers, level + 1)
       end
     end
   end
