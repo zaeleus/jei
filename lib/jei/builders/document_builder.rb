@@ -25,40 +25,22 @@ module Jei
             serializers = Set.new
 
             resource.each do |r|
-              serializer =
-                if options[:serializer]
-                  options[:serializer].new(r)
-                else
-                  Serializer.factory(r)
-                end
-
+              serializer = Serializer.factory(r, options[:serializer])
               Path.find(paths, serializer, serializers)
-
               node.children << ResourceNodeBuilder.build(serializer)
             end
 
             root.children << IncludedNodeBuilder.build(serializers)
           else
             resource.each do |r|
-              serializer =
-                if options[:serializer]
-                  options[:serializer].new(r)
-                else
-                  Serializer.factory(r)
-                end
-
+              serializer = Serializer.factory(r, options[:serializer])
               node.children << ResourceNodeBuilder.build(serializer)
             end
           end
 
           root.children << node
         else
-          serializer =
-            if options[:serializer]
-              options[:serializer].new(resource)
-            else
-              Serializer.factory(resource)
-            end
+          serializer = Serializer.factory(resource, options[:serializer])
 
           root.children << DataNodeBuilder.build(serializer)
 
