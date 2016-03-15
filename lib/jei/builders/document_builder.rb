@@ -5,8 +5,12 @@ module Jei
       # @param [Hash<Symbol, Object>] options
       # @return [Document]
       def self.build(resource, options = {})
-        document = Document.new(options)
+        document = Document.new
         root = document.root
+
+        root.children << JSONAPINode.new if options[:jsonapi]
+        root.children << MetaNode.new(options[:meta]) if options[:meta]
+        root.children << Builder::LinksNodeBuilder.build(links) if options[:links]
 
         if resource.is_a?(Enumerable)
           node = CollectionDataNode.new
