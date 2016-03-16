@@ -11,6 +11,6 @@
   object identity.
 * [FIX] Fix include usage when serializing a collection.
 
-## 0.1.0 (2016-03-16)
+## 0.1.0 (2016-03-15)
 
 * Initial release
