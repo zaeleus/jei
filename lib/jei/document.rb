@@ -6,16 +6,18 @@ module Jei
     # @return [DocumentNode]
     attr_reader :root
 
+    # Builds a document from a resource.
+    #
     # @param [Object] resource
     # @param [Hash<Symbol, Object>] options
-    # @option options [Boolean] :jsonapi Add the top level JSON API object to
-    #   the document.
-    # @option options [Array<Link>] :links Add links related to the primary
-    #   data.
-    # @option options [Hash<Symbol, Object>] :meta Add top level meta
-    #   information to the document.
-    # @option options [Class] :serializer Override the default serializer. For
-    #   collections, this works only if all the resources are of the same type.
+    # @option options [String] :include a list of relationship paths
+    # @option options [Boolean] :jsonapi add the top level JSON API object to
+    #   the document
+    # @option options [Array<Link>] :links add links related to the primary
+    #   data
+    # @option options [Hash<Symbol, Object>] :meta add top level meta
+    #   information to the document
+    # @option options [Class] :serializer override the default serializer
     # @return [Document]
     def self.build(resource, options = {})
       Builder::DocumentBuilder.build(resource, options)

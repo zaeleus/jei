@@ -22,6 +22,8 @@ module Jei
     end
 
     # @param [Symbol] name
+    # @param [Hash<Symbol, Object>] options
+    # @see Relationship#initialize
     def self.belongs_to(name, options = {}, &blk)
       value = block_given? ? blk : name
       serialization_map[:relationships][name] =
@@ -29,14 +31,30 @@ module Jei
     end
 
     # @param [Symbol] name
+    # @param [Hash<Symbol, Object>] options
+    # @see Relationship#initialize
     def self.has_many(name, options = {}, &blk)
       value = block_given? ? blk : name
       serialization_map[:relationships][name] =
         HasManyRelationship.new(name, value, options)
     end
 
+    # Instantiates a new serializer based on the type of the given resource.
+    #
+    # This assumes serializer classes are defined in the global namespace. If
+    # not, a serializer class can be passed to override the lookup.
+    #
+    # @example
+    #   artist = Artist.new
+    #
+    #   serializer = Serializer.factory(artist)
+    #   # => #<ArtistSerializer>
+    #
+    #   serializer = Serializer.factory(artist, SimpleArtistSerializer)
+    #   # => #<SimpleArtistSerializer>
+    #
     # @param [Object] resource
-    # @param [Class] klass
+    # @param [Class] klass the class used instead of serializer lookup
     # @return [Serializer]
     def self.factory(resource, klass = nil)
       klass ||= const_get("#{resource.class.name}Serializer")

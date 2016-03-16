@@ -1,7 +1,7 @@
 module Jei
   module Builder
     module IncludedNodeBuilder
-      # @param [Set<Serializer>] resources
+      # @param [Set<Serializer>] serializers
       # @return [IncludedNode]
       def self.build(serializers)
         node = IncludedNode.new
