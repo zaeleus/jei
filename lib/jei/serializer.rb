@@ -98,7 +98,7 @@ module Jei
 
     # @return [Boolean]
     def ==(other)
-      id == other.id && type == other.type
+      key == other.key
     end
     alias_method :eql?, :==
 
