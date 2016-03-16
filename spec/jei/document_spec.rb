@@ -11,6 +11,91 @@ module Jei
         end
       end
 
+      context 'the resource is a collection' do
+        it 'adds a collection data node' do
+          artist_serializer_class = Class.new(Serializer)
+          artists = [Artist.new(id: 1), Artist.new(id: 2)]
+
+          document = Document.build(artists, serializer: artist_serializer_class)
+
+          expected = {
+            data: [
+              { id: '1', type: 'artists' },
+              { id: '2', type: 'artists' }
+            ]
+          }
+
+          expect(document.to_h).to eq(expected)
+        end
+      end
+
+      context 'options[:include] is a string of relationship paths' do
+        let(:artists) do
+          artist1 = Artist.new(id: 1)
+          artist1.albums = [Album.new(id: 1, artist: artist1)]
+
+          artist2 = Artist.new(id: 2)
+          artist2.albums = [Album.new(id: 2, artist: artist2)]
+
+          [artist1, artist2]
+        end
+
+        let(:artist_serializer_class) do
+          Class.new(Serializer) do
+            has_many :albums, serializer: Class.new(Serializer)
+          end
+        end
+
+        context 'the resource is singular' do
+          it 'includes related resources in an included node' do
+            options = { include: 'albums', serializer: artist_serializer_class }
+            document = Document.build(artists[0], options)
+
+            expected = {
+              data: {
+                id: '1',
+                type: 'artists',
+                relationships: {
+                  albums: { data: [{ id: '1', type: 'albums' }] }
+                }
+              },
+              included: [{ id: '1', type: 'albums' }]
+            }
+
+            expect(document.to_h).to eq(expected)
+          end
+        end
+
+        context 'the resource is a collection' do
+          it 'includes all related resources in an included node' do
+            options = { include: 'albums', serializer: artist_serializer_class }
+            document = Document.build(artists, options)
+
+            expected = {
+              data: [{
+                id: '1',
+                type: 'artists',
+                relationships: {
+                  albums: { data: [{ id: '1', type: 'albums' }] }
+                }
+              }, {
+                id: '2',
+                type: 'artists',
+                relationships: {
+                  albums: { data: [{ id: '2', type: 'albums' }] }
+                }
+              }],
+              included: [
+                { id: '1', type: 'albums' },
+                { id: '2', type: 'albums' }
+              ]
+            }
+
+            expect(document.to_h).to eq(expected)
+          end
+        end
+      end
+
       context 'options[:jsonapi] is true' do
         it 'adds a jsaonapi node to the document' do
           document = Document.build(nil, jsonapi: true)
@@ -83,6 +168,22 @@ module Jei
       it 'initializes a DocumentNode as the root node' do
         document = Document.new
         expect(document.root).to be_kind_of(DocumentNode)
+      end
+    end
+
+    describe '#to_h' do
+      it 'returns the document as a hash' do
+        document = Document.new
+        document.root.children << DataNode.new
+        expect(document.to_h).to eq({ data: nil })
+      end
+    end
+
+    describe '#to_json' do
+      it 'formats the document as a JSON string' do
+        document = Document.new
+        document.root.children << DataNode.new
+        expect(document.to_json).to eq('{"data":null}')
       end
     end
   end
