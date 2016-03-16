@@ -78,6 +78,12 @@ module Jei
       [type, id]
     end
 
+    # @return [Boolean]
+    def ==(other)
+      id == other.id && type == other.type
+    end
+    alias_method :eql?, :==
+
     # @return [Fixnum]
     def hash
       key.hash

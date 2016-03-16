@@ -138,6 +138,21 @@ module Jei
       end
     end
 
+    describe '#eql?' do
+      it 'checks for object equality' do
+        artist1 = Artist.new(id: 1)
+        artist2 = Artist.new(id: 2)
+
+        s1 = Serializer.new(artist1)
+        s2 = Serializer.new(artist1)
+        s3 = Serializer.new(artist2)
+
+        expect(s1).to eql(s1)
+        expect(s1).to eql(s2)
+        expect(s1).not_to eql(s3)
+      end
+    end
+
     describe '#hash' do
       it 'generates a hash value for the serializer using its key' do
         artist = Artist.new(id: 1)
