@@ -33,7 +33,7 @@ module Jei
     # @param [Serializer] serializer
     # @param [Set<Serializer>] serializers
     # @param [Integer] level
-    def walk(serializer, serializers = Set.new, level = 0)
+    def walk(serializer, serializers, level = 0)
       return if level >= @names.length
 
       name = @names[level]
