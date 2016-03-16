@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module RelationshipNodeBuilder
+      include Nodes
+
       # @param [Relationship] relationship
       # @param [Serializer] serializer
       # @return [RelationshipNode]

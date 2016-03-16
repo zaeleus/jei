@@ -1,23 +1,26 @@
+require 'spec_helper'
+
 module Jei
-  describe ResourceIdentifierNode do
-    describe '#visit' do
-      it 'sets the id and type members of the resource' do
-        artist = Artist.new(id: 37)
-        serializer = ArtistSerializer.new(artist)
+  module Nodes
+    describe ResourceIdentifierNode do
+      describe '#visit' do
+        it 'sets the id and type members of the resource' do
+          artist = Artist.new(id: 37)
+          serializer = ArtistSerializer.new(artist)
 
-        node = ResourceIdentifierNode.new(serializer)
+          node = ResourceIdentifierNode.new(serializer)
 
-        context = {}
-        node.visit(context)
+          context = {}
+          node.visit(context)
 
-        expected = {
-          id: '37',
-          type: 'artists'
-        }
+          expected = {
+            id: '37',
+            type: 'artists'
+          }
 
-        expect(context).to eq(expected)
+          expect(context).to eq(expected)
+        end
       end
     end
   end
 end
-

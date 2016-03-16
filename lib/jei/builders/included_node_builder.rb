@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module IncludedNodeBuilder
+      include Nodes
+
       # @param [Set<Serializer>] serializers
       # @return [IncludedNode]
       def self.build(serializers)

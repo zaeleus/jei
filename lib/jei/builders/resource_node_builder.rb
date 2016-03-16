@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module ResourceNodeBuilder
+      include Nodes
+
       # @param [Serializer] serializer
       # @return [ResourceNode]
       def self.build(serializer)

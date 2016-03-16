@@ -167,14 +167,14 @@ module Jei
     describe '.new' do
       it 'initializes a DocumentNode as the root node' do
         document = Document.new
-        expect(document.root).to be_kind_of(DocumentNode)
+        expect(document.root).to be_kind_of(Nodes::DocumentNode)
       end
     end
 
     describe '#to_h' do
       it 'returns the document as a hash' do
         document = Document.new
-        document.root.children << DataNode.new
+        document.root.children << Nodes::DataNode.new
         expect(document.to_h).to eq({ data: nil })
       end
     end
@@ -182,7 +182,7 @@ module Jei
     describe '#to_json' do
       it 'formats the document as a JSON string' do
         document = Document.new
-        document.root.children << DataNode.new
+        document.root.children << Nodes::DataNode.new
         expect(document.to_json).to eq('{"data":null}')
       end
     end

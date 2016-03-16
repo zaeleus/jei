@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module AttributesNodeBuilder
+      include Nodes
+
       # @param [Serializer] serializer
       # @return [AttributesNode]
       def self.build(serializer)

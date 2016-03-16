@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module DocumentBuilder
+      include Nodes
+
       # @param [Object] resource
       # @param [Hash<Symbol, Object>] options
       # @return [Document]

@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module DataNodeBuilder
+      include Nodes
+
       # @param [Serializer] serializer
       # @return [DataNode]
       def self.build(serializer)

@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module RelationshipsNodeBuilder
+      include Nodes
+
       # @param [Serializer] serializer
       # @return [RelationshipsNode]
       def self.build(serializer)

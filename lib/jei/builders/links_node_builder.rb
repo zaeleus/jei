@@ -1,6 +1,8 @@
 module Jei
   module Builder
     module LinksNodeBuilder
+      include Nodes
+
       # @param [Array<Link>] links
       # @return [LinksNode]
       def self.build(links)

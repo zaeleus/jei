@@ -24,7 +24,7 @@ module Jei
     end
 
     def initialize
-      @root = DocumentNode.new
+      @root = Nodes::DocumentNode.new
     end
 
     # @return [Hash<Symbol, Object>]
