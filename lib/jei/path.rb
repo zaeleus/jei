@@ -1,5 +1,7 @@
 module Jei
   class Path
+    class NameError < Jei::Error; end
+
     PATH_SEPARATOR = ','
     NAME_SEPARATOR = '.'
 
@@ -36,6 +38,7 @@ module Jei
 
       name = @names[level]
       relationship = serializer.relationships[name]
+      raise NameError, "invalid relationship name `#{name}'" unless relationship
       resources = [*relationship.evaluate(serializer)]
 
       resources.each do |resource|

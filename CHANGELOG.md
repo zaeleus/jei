@@ -2,6 +2,7 @@
 
 ## HEAD
 
+* [ADD] Raise `Path::NameError` on bad relationship names.
 * [BREAKING] Rename relationship option `no_data` to `data`. Take the
   inverse of each occurance to update, e.g., change `no_data: true` to
   `data: false`.

@@ -1,6 +1,8 @@
 require 'json'
 require 'set'
 
+require 'jei/error'
+
 require 'jei/nodes/node'
 
 require 'jei/nodes/attribute_node'
@@ -36,6 +38,3 @@ require 'jei/relationship'
 require 'jei/serializer'
 
 require 'jei/version'
-
-module Jei
-end

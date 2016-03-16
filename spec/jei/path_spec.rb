@@ -65,6 +65,19 @@ module Jei
 
         expect(serializers).to eq(expected)
       end
+
+      it 'raises an Path::NameError if no related relationship is found' do
+        a1 = A.new(id: 1)
+
+        path = Path.new([:cs])
+
+        serializer = ASerializer.new(a1)
+        serializers = Set.new
+
+        expect {
+          path.walk(serializer, serializers)
+        }.to raise_error(Path::NameError)
+      end
     end
   end
 end
