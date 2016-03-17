@@ -8,7 +8,7 @@ module Jei
     # @param [Hash<Symbol, Object>] options
     # @option options [Boolean] :data (true) whether to include data in the
     #   relationship
-    # @option options [Proc] :links a Proc that evaulates to a list of links
+    # @option options [Proc] :links a `Proc` that evaulates to a list of links
     # @option options [Class] :serializer override the default serializer used
     #   for related resources
     def initialize(name, value = name, options = {})
@@ -20,7 +20,7 @@ module Jei
     # @param [Serializer] serializer
     # @return [Array<Link>]
     def links(serializer)
-      serializer.instance_eval(&options[:links])
+      serializer.instance_exec(&options[:links])
     end
   end
 

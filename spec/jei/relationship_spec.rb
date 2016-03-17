@@ -17,7 +17,7 @@ module Jei
         album = Album.new(id: 1)
         serializer = Serializer.factory(album)
 
-        relationship = Relationship.new(:albums, :albums, links: -> (_) {
+        relationship = Relationship.new(:albums, :albums, links: -> {
           [Link.new(:related, "/api/v1/#{type}")]
         })
 

@@ -2,6 +2,8 @@
 
 ## HEAD
 
+* [BREAKING] A relationship links `Proc` is no longer passed the context as
+  an argument. Update usages of `links: ->(_) {}` to `links: -> {}`.
 * [ADD] Raise `Jei::Path::NameError` on bad relationship names.
 * [BREAKING] Rename relationship option `no_data` to `data`. Take the
   inverse of each occurance to update, e.g., change `no_data: true` to

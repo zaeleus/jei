@@ -84,7 +84,7 @@ module Jei
 
         context 'relationship.options[:links] is set' do
           it 'adds a links node' do
-            relationship = HasManyRelationship.new(:albums, :albums, links: ->(_) {
+            relationship = HasManyRelationship.new(:albums, :albums, links: proc {
               [Link.new(:related, 'https://example.com/albums/1')]
             })
 

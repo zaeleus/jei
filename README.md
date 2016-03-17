@@ -210,7 +210,7 @@ Each relationship object can be modified with the following options.
 
     ```ruby
     class ArtistSerializer < Jei::Serializer
-      has_many :albums, links: ->(_) {
+      has_many :albums, links: -> {
         [Jei::Link.new(:related, "/#{type}/#{id}/albums")]
       }
     end
@@ -478,7 +478,7 @@ end
 # app/serializers/artist_serializer.rb
 class ArtistSerializer < ApplicationSerializer
   attributes :name
-  has_many :albums, data: false, links: ->(_) {
+  has_many :albums, data: false, links: -> {
     [Jei::Link.new(:related, album_path(resource))]
   }
 end
