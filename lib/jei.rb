@@ -30,11 +30,13 @@ require 'jei/builders/relationship_node_builder'
 require 'jei/builders/relationships_node_builder'
 require 'jei/builders/resource_node_builder'
 
-require 'jei/attribute'
 require 'jei/document'
 require 'jei/link'
 require 'jei/path'
-require 'jei/relationship'
 require 'jei/serializer'
+
+require 'jei/field'
+require 'jei/attribute'
+require 'jei/relationship'
 
 require 'jei/version'

@@ -1,5 +1,5 @@
 module Jei
-  class Relationship < Attribute
+  class Relationship < Field
     # @return [Hash<Symbol, Object>] options
     attr_reader :options
 
