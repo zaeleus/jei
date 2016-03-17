@@ -438,3 +438,62 @@ Top level objects can be added using the following options.
       }
     }
     ```
+
+## Integration
+
+Jei is not tied to any framework and can be integrated as a normal gem.
+
+### Rails
+
+The simplest usage with [Rails][rails] is to define a new renderer.
+
+```ruby
+# config/initializers/jei.rb
+ActionController::Renderers.add(:jsonapi) do |resource, options|
+  document = Jei::Document.build(resource, options)
+  json = document.to_json
+  self.content_type = Mime::Type.lookup_by_extension(:jsonapi)
+  self.response_body = json
+end
+
+# config/initializers/mime_types.rb
+Mime::Type.register 'application/vnd.api+json', :jsonapi
+```
+
+Serializers can be placed in `app/serializers`. Include Rails' url helpers to
+have them conveniently accessible in the serializer context for links.
+
+```ruby
+# app/serializers/application_serializer.rb
+class ApplicationSerializer < Jei::Serializer
+  include Rails.application.routes.url_helpers
+end
+
+# app/serializers/album_serializer.rb
+class AlbumSerializer < ApplicationSerializer
+  attributes :kind, :name, :release_date
+  belongs_to :artist
+end
+
+# app/serializers/artist_serializer.rb
+class ArtistSerializer < ApplicationSerializer
+  attributes :name
+  has_many :albums, data: false, links: ->(_) {
+    [Jei::Link.new(:related, album_path(resource))]
+  }
+end
+```
+
+Specify the `jsonapi` format defined earlier when rendering in a controller.
+
+```ruby
+# app/controllers/artists_controller.rb
+class ArtistsController < ApplicationController
+  def show
+    artist = Artist.find(params[:id])
+    render jsonapi: artist, include: params[:include]
+  end
+end
+```
+
+[rails]: http://rubyonrails.org/
