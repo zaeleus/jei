@@ -1,5 +1,5 @@
 module Jei
-  module Builder
+  module Builders
     module DataNodeBuilder
       include Nodes
 

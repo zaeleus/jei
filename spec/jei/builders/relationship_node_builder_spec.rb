@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Jei
-  module Builder
+  module Builders
     describe RelationshipNodeBuilder do
       describe '.build' do
         let(:resources) do

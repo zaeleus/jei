@@ -20,7 +20,7 @@ module Jei
     # @option options [Class] :serializer override the default serializer
     # @return [Document]
     def self.build(resource, options = {})
-      Builder::DocumentBuilder.build(resource, options)
+      Builders::DocumentBuilder.build(resource, options)
     end
 
     def initialize
