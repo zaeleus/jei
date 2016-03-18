@@ -2,11 +2,11 @@ require 'spec_helper'
 
 module Jei
   describe Serializer do
-    describe '.serialization_map' do
+    describe '.fields' do
       it 'is cached' do
         klass = Class.new(Serializer)
-        map_a = klass.serialization_map
-        map_b = klass.serialization_map
+        map_a = klass.fields
+        map_b = klass.fields
         expect(map_a).to be(map_b)
       end
     end
@@ -16,7 +16,7 @@ module Jei
         klass = Class.new(Serializer)
         klass.attributes(:kind, :name, :release_date)
 
-        attributes = klass.serialization_map[:attributes]
+        attributes = klass.fields[:attributes]
 
         expect(attributes[:kind]).to be_kind_of(Attribute)
         expect(attributes[:name]).to be_kind_of(Attribute)
@@ -29,7 +29,7 @@ module Jei
         klass = Class.new(Serializer)
         klass.attribute(:name)
 
-        attributes = klass.serialization_map[:attributes]
+        attributes = klass.fields[:attributes]
 
         expect(attributes[:name]).to be_kind_of(Attribute)
       end
@@ -40,7 +40,7 @@ module Jei
         klass = Class.new(Serializer)
         klass.belongs_to(:artist)
 
-        relationships = klass.serialization_map[:relationships]
+        relationships = klass.fields[:relationships]
 
         expect(relationships[:artist]).to be_kind_of(BelongsToRelationship)
       end
@@ -51,7 +51,7 @@ module Jei
         klass = Class.new(Serializer)
         klass.has_many(:albums)
 
-        relationships = klass.serialization_map[:relationships]
+        relationships = klass.fields[:relationships]
 
         expect(relationships[:albums]).to be_kind_of(HasManyRelationship)
       end

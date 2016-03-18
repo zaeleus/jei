@@ -4,8 +4,8 @@ module Jei
     attr_reader :resource
 
     # @return [Hash<Symbol, Attribute>]
-    def self.serialization_map
-      @serialization_map ||= Hash.new { |h, k| h[k] = {} }
+    def self.fields
+      @fields ||= Hash.new { |h, k| h[k] = {} }
     end
 
     # @overload attributes(name, ...)
@@ -18,7 +18,7 @@ module Jei
     # @param [Symbol] name
     def self.attribute(name, &blk)
       value = block_given? ? blk : name
-      serialization_map[:attributes][name] = Attribute.new(name, value)
+      fields[:attributes][name] = Attribute.new(name, value)
     end
 
     # @param [Symbol] name
@@ -26,7 +26,7 @@ module Jei
     # @see Relationship#initialize
     def self.belongs_to(name, options = {}, &blk)
       value = block_given? ? blk : name
-      serialization_map[:relationships][name] =
+      fields[:relationships][name] =
         BelongsToRelationship.new(name, value, options)
     end
 
@@ -35,7 +35,7 @@ module Jei
     # @see Relationship#initialize
     def self.has_many(name, options = {}, &blk)
       value = block_given? ? blk : name
-      serialization_map[:relationships][name] =
+      fields[:relationships][name] =
         HasManyRelationship.new(name, value, options)
     end
 
@@ -78,12 +78,12 @@ module Jei
 
     # @return [Hash<Symbol, Attribute>]
     def attributes
-      self.class.serialization_map[:attributes]
+      self.class.fields[:attributes]
     end
 
     # @return [Hash<Symbol, Relationship>]
     def relationships
-      self.class.serialization_map[:relationships]
+      self.class.fields[:relationships]
     end
 
     # @return [Array<Link>, nil]

@@ -7,8 +7,7 @@ module Jei
         it 'sets the attribute name to the attribute value' do
           artist = Artist.new(kind: :person, name: 'FIESTAR')
           serializer = ArtistSerializer.new(artist)
-          attributes = serializer.class.serialization_map[:attributes]
-          attribute = attributes[:name]
+          attribute = serializer.attributes[:name]
 
           node = AttributeNode.new(serializer, attribute)
 
