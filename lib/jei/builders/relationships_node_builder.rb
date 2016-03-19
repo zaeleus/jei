@@ -5,10 +5,10 @@ module Jei
 
       # @param [Serializer] serializer
       # @return [RelationshipsNode]
-      def self.build(serializer)
+      def self.build(relationships, serializer)
         node = RelationshipsNode.new
 
-        serializer.relationships.values.each do |relationship|
+        relationships.each do |relationship|
           node.children << RelationshipNodeBuilder.build(relationship, serializer)
         end
 

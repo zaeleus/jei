@@ -287,6 +287,34 @@ string (`#to_json`).
 
 Top level objects can be added using the following options.
 
+* `:fields`: (`Hash<String, String>`) A map of resource type-fields that define
+  sparse fieldsets. Keys are resource types, and fields are a comma-separated
+  list of field names. For example, `{ 'artists' => 'name,albums', 'albums' =>
+  'released_on' }`.
+
+    ```ruby
+    class ArtistSerializer < Jei::Serializer
+      attributes :kind, :name
+      has_many :albums
+    end
+
+    artist = Artist.new(id: 1, kind: :group, name: 'FIESTAR', albums: [])
+
+    Jei::Document.build(artist, fields: { 'artists' => 'name' }).to_json
+    ```
+
+    ```json
+    {
+      "data": {
+        "id": "1",
+        "type": "artists",
+        "attributes": {
+          "name": "FIESTAR"
+        }
+      }
+    }
+    ```
+
 * `:include`: (`String`) A comma separated list of relationship paths. Each
   path is a list of relationship names, separated by a period. For example, a
   valid list of paths would be `artist,tracks.song`. The set of resources are

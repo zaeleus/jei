@@ -10,6 +10,8 @@ module Jei
     #
     # @param [Object] resource
     # @param [Hash<Symbol, Object>] options
+    # @option options [Hash<String, String>] :fields restrict resource
+    #   attributes and relationships to a user-defined set of fields
     # @option options [String] :include a list of relationship paths
     # @option options [Boolean] :jsonapi add the top level JSON API object to
     #   the document

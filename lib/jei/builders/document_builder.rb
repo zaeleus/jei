@@ -19,6 +19,8 @@ module Jei
           return document
         end
 
+        fieldsets = options[:fields] ? Fieldset.parse(options[:fields]) : {}
+
         if resource.is_a?(Enumerable)
           node = CollectionDataNode.new
 
@@ -29,29 +31,36 @@ module Jei
             resource.each do |r|
               serializer = Serializer.factory(r, options[:serializer])
               Path.find(paths, serializer, serializers)
-              node.children << ResourceNodeBuilder.build(serializer)
+              fieldset = fieldsets[serializer.type]
+              node.children << ResourceNodeBuilder.build(serializer, fieldset)
             end
 
-            root.children << IncludedNodeBuilder.build(serializers)
+            root.children << IncludedNodeBuilder.build(serializers, fieldsets)
           else
             resource.each do |r|
               serializer = Serializer.factory(r, options[:serializer])
-              node.children << ResourceNodeBuilder.build(serializer)
+              fieldset = fieldsets[serializer.type]
+              node.children << ResourceNodeBuilder.build(serializer, fieldset)
             end
           end
 
           root.children << node
         else
-          serializer = Serializer.factory(resource, options[:serializer])
+          node = DataNode.new
 
-          root.children << DataNodeBuilder.build(serializer)
+          serializer = Serializer.factory(resource, options[:serializer])
+          fieldset = fieldsets[serializer.type]
+
+          node.children << ResourceNodeBuilder.build(serializer, fieldset)
 
           if options[:include]
             paths = Path.parse(options[:include])
             serializers = Set.new
             Path.find(paths, serializer, serializers)
-            root.children << IncludedNodeBuilder.build(serializers)
+            root.children << IncludedNodeBuilder.build(serializers, fieldsets)
           end
+
+          root.children << node
         end
 
         document

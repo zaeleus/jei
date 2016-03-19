@@ -31,6 +31,7 @@ require 'jei/builders/relationships_node_builder'
 require 'jei/builders/resource_node_builder'
 
 require 'jei/document'
+require 'jei/fieldset'
 require 'jei/link'
 require 'jei/path'
 require 'jei/serializer'

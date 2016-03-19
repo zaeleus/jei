@@ -5,10 +5,10 @@ module Jei
 
       # @param [Serializer] serializer
       # @return [AttributesNode]
-      def self.build(serializer)
+      def self.build(attributes, serializer)
         node = AttributesNode.new
 
-        serializer.attributes.values.each do |attribute|
+        attributes.each do |attribute|
           node.children << AttributeNode.new(serializer, attribute)
         end
 

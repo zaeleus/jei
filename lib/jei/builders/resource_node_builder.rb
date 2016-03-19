@@ -4,18 +4,23 @@ module Jei
       include Nodes
 
       # @param [Serializer] serializer
+      # @param [Array<Symbol>] fieldset
       # @return [ResourceNode]
-      def self.build(serializer)
+      def self.build(serializer, fieldset = nil)
         node = ResourceNode.new
 
         node.children << ResourceIdentifierNode.new(serializer)
 
-        if serializer.attributes.any?
-          node.children << AttributesNodeBuilder.build(serializer)
+        attributes = serializer.attributes(fieldset).values
+
+        if attributes.any?
+          node.children << AttributesNodeBuilder.build(attributes, serializer)
         end
 
-        if serializer.relationships.any?
-          node.children << RelationshipsNodeBuilder.build(serializer)
+        relationships = serializer.relationships(fieldset).values
+
+        if relationships.any?
+          node.children << RelationshipsNodeBuilder.build(relationships, serializer)
         end
 
         links = serializer.links

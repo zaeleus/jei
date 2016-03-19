@@ -76,14 +76,16 @@ module Jei
       "#{resource.class.name.downcase}s"
     end
 
+    # @param [Array<Symbol>] fieldset
     # @return [Hash<Symbol, Attribute>]
-    def attributes
-      self.class.fields[:attributes]
+    def attributes(fieldset = nil)
+      fields(:attributes, fieldset)
     end
 
+    # @param [Array<Symbol>] fieldset
     # @return [Hash<Symbol, Relationship>]
-    def relationships
-      self.class.fields[:relationships]
+    def relationships(fieldset = nil)
+      fields(:relationships, fieldset)
     end
 
     # @return [Array<Link>, nil]
@@ -105,6 +107,27 @@ module Jei
     # @return [Fixnum]
     def hash
       key.hash
+    end
+
+    private
+
+    # @param [Symbol] type
+    # @param [Array<Symbol>] fieldset
+    # @return [Hash<Symbol, Field>]
+    def fields(type, fieldset = nil)
+      fields = self.class.fields[type]
+
+      if fieldset
+        slice = {}
+
+        fieldset.each do |name|
+          slice[name] = fields[name] if fields.has_key?(name)
+        end
+
+        slice
+      else
+        fields
+      end
     end
   end
 end

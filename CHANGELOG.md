@@ -2,6 +2,7 @@
 
 ## HEAD
 
+* [ADD] Add `:fields` document build option for sparse fieldsets.
 * [BREAKING] A relationship links `Proc` is no longer passed the context as
   an argument. Update usages of `links: ->(_) {}` to `links: -> {}`.
 * [ADD] Raise `Jei::Path::NameError` on bad relationship names.

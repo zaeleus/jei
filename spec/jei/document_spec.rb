@@ -29,6 +29,33 @@ module Jei
         end
       end
 
+      context 'options[:fields] is a map of fieldsets' do
+        let(:artist) do
+          albums = [Album.new(id: 1, name: 'A Delicate Sense')]
+          Artist.new(id: 1, kind: :group, name: 'FIESTAR', albums: albums)
+        end
+
+        it 'only includes the specified fields' do
+          fields = { 'artists' => 'name', 'albums' => '' }
+          document = Document.build(artist, fields: fields, include: 'albums')
+
+          expected = {
+            data: {
+              id: '1',
+              type: 'artists',
+              attributes: {
+                name: 'FIESTAR'
+              }
+            },
+            included: [
+              { id: '1', type: 'albums' }
+            ]
+          }
+
+          expect(document.to_h).to eq(expected)
+        end
+      end
+
       context 'options[:include] is a string of relationship paths' do
         let(:artists) do
           artist1 = Artist.new(id: 1)
