@@ -2,6 +2,8 @@
 
 ## HEAD
 
+## 0.2.0 (2016-03-22)
+
 * [ADD] Add `:fields` document build option for sparse fieldsets.
 * [BREAKING] A relationship links `Proc` is no longer passed the context as
   an argument. Update usages of `links: ->(_) {}` to `links: -> {}`.
