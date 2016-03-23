@@ -71,6 +71,33 @@ class Artist; end
 class ArtistSerializer < Jei::Serializer; end
 ```
 
+#### Resource Identifiers
+
+A serializer wraps a resource, which has an id and type. By default, the
+serializer assumes the resource responds to `id`. If not, override
+`Jei::Serializer#id` and return a custom id as a string.
+
+```ruby
+class ArtistSerializer < Jei::Serializer
+  def id
+    resource.uuid
+  end
+end
+```
+
+The default resource type is the resource's lowercased class name with an 's'
+appended.  For example, `Artist` becomes "artists" and `Person` becomes
+"persons". For a custom type, override `Jei::Serializer#type` and return a
+string.
+
+```ruby
+class PersonSerializer < Jei::Serializer
+  def type
+    'people'.freeze
+  end
+end
+```
+
 #### Attributes
 
 Attributes represent model data. They are defined in a serializer by using the

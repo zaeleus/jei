@@ -1,6 +1,6 @@
 module Jei
   class Serializer
-    # @return [#id]
+    # @return [Object]
     attr_reader :resource
 
     # @return [Hash<Symbol, Attribute>]
