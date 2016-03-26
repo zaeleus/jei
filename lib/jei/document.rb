@@ -1,7 +1,7 @@
 module Jei
   class Document
     # @return [String]
-    VERSION = '1.0'
+    VERSION = '1.0'.freeze
 
     # @return [Hash<Symbol, Object>]
     attr_reader :root

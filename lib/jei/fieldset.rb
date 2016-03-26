@@ -1,6 +1,6 @@
 module Jei
   class Fieldset
-    NAME_SEPARATOR = ','
+    NAME_SEPARATOR = ','.freeze
 
     def self.parse(raw_fields)
       fields = {}

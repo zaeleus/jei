@@ -2,8 +2,8 @@ module Jei
   class Path
     class NameError < Jei::Error; end
 
-    PATH_SEPARATOR = ','
-    NAME_SEPARATOR = '.'
+    PATH_SEPARATOR = ','.freeze
+    NAME_SEPARATOR = '.'.freeze
 
     # @return [Array<Symbol>]
     attr_reader :names
