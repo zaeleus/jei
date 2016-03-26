@@ -2,6 +2,10 @@
 
 ## HEAD
 
+* [CHANGE] Directly build a document rather than building and evaluating a
+  parse tree. The tree ended up not being a very useful intermediate
+  representation, and removing it improves synthetic benchmarks by ~25%.
+
 ## 0.2.0 (2016-03-22)
 
 * [ADD] Add `:fields` document build option for sparse fieldsets.

@@ -192,25 +192,23 @@ module Jei
     end
 
     describe '.new' do
-      it 'initializes a DocumentNode as the root node' do
+      it 'initializes an empty hash as the root' do
         document = Document.new
-        expect(document.root).to be_kind_of(Nodes::DocumentNode)
+        expect(document.root).to eq({})
       end
     end
 
     describe '#to_h' do
       it 'returns the document as a hash' do
         document = Document.new
-        document.root.children << Nodes::DataNode.new
-        expect(document.to_h).to eq({ data: nil })
+        expect(document.to_h).to eq({})
       end
     end
 
     describe '#to_json' do
       it 'formats the document as a JSON string' do
         document = Document.new
-        document.root.children << Nodes::DataNode.new
-        expect(document.to_json).to eq('{"data":null}')
+        expect(document.to_json).to eq('{}')
       end
     end
   end

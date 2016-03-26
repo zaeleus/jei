@@ -3,7 +3,7 @@ module Jei
     # @return [String]
     VERSION = '1.0'
 
-    # @return [DocumentNode]
+    # @return [Hash<Symbol, Object>]
     attr_reader :root
 
     # Builds a document from a resource.
@@ -22,18 +22,16 @@ module Jei
     # @option options [Class] :serializer override the default serializer
     # @return [Document]
     def self.build(resource, options = {})
-      Builders::DocumentBuilder.build(resource, options)
+      Builder.build(resource, options)
     end
 
-    def initialize
-      @root = Nodes::DocumentNode.new
+    def initialize(root = {})
+      @root = root
     end
 
     # @return [Hash<Symbol, Object>]
     def to_h
-      document = {}
-      root.visit(document)
-      document
+      @root
     end
 
     # @return [String]
