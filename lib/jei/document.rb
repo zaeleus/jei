@@ -5,6 +5,7 @@ module Jei
 
     # @return [Hash<Symbol, Object>]
     attr_reader :root
+    alias_method :to_h, :root
 
     # Builds a document from a resource.
     #
@@ -27,11 +28,6 @@ module Jei
 
     def initialize(root = {})
       @root = root
-    end
-
-    # @return [Hash<Symbol, Object>]
-    def to_h
-      @root
     end
 
     # @return [String]
