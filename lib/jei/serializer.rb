@@ -100,13 +100,17 @@ module Jei
 
     # @return [Boolean]
     def ==(other)
-      key == other.key
+      hash == other.hash
     end
     alias_method :eql?, :==
 
+    # Returns a digest for this serializer.
+    #
+    # The second element is shifted to preserve order.
+    #
     # @return [Fixnum]
     def hash
-      key.hash
+      type.hash ^ (id.hash >> 1)
     end
 
     private

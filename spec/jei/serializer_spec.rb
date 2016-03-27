@@ -157,7 +157,7 @@ module Jei
       it 'generates a hash value for the serializer using its key' do
         artist = Artist.new(id: 1)
         serializer = Serializer.new(artist)
-        expected = ['artists', '1'].hash
+        expected = 'artists'.hash ^ ('1'.hash >> 1)
         expect(serializer.hash).to eq(expected)
       end
     end
