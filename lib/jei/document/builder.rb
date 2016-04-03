@@ -17,7 +17,9 @@ module Jei
         build_meta(root, options[:meta]) if options[:meta]
         build_links(root, options[:links]) if options[:links]
 
-        if resource.nil?
+        if options[:errors]
+          build_errors(root, options[:errors])
+        elsif resource.nil?
           root[:data] = nil
         elsif resource.is_a?(Enumerable)
           build_collection(root, resource, options)
@@ -259,6 +261,13 @@ module Jei
           build_resource(root, serializer, fieldset)
           root
         end
+      end
+
+      # @see http://jsonapi.org/format/1.0/#error-objects
+      # @param [Hash<Symbol, Object>] context
+      # @param [Array<Hash<Symbol, Object>>] errors
+      def build_errors(context, errors)
+        context[:errors] = errors
       end
     end
   end

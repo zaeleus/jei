@@ -29,6 +29,24 @@ module Jei
         end
       end
 
+      context 'options[:errors] is an array of error objects' do
+        it 'builds a document with errors and no primary data' do
+          errors = [{
+            status: '400'
+          }]
+
+          document = Document.build(nil, errors: errors)
+
+          expected = {
+            errors: [{
+              status: '400'
+            }]
+          }
+
+          expect(document.to_h).to eq(expected)
+        end
+      end
+
       context 'options[:fields] is a map of fieldsets' do
         let(:artist) do
           albums = [Album.new(id: 1, name: 'A Delicate Sense')]

@@ -2,6 +2,8 @@
 
 ## HEAD
 
+* [ADD] Add `:errors` document build option to override primary data with an
+  array of error objects.
 * [CHANGE] Directly build a document rather than building and evaluating a
   parse tree. The tree ended up not being a very useful intermediate
   representation, and removing it improves synthetic benchmarks by ~25%.

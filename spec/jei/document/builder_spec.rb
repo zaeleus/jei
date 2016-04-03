@@ -602,6 +602,25 @@ module Jei
           }
         end
       end
+
+      describe '.build_errors' do
+        it 'builds an array of error objects' do
+          errors = [{
+            status: '400'
+          }]
+
+          root = {}
+          Builder.build_errors(root, errors)
+
+          expected = {
+            errors: [{
+              status: '400'
+            }]
+          }
+
+          expect(root).to eq(expected)
+        end
+      end
     end
   end
 end

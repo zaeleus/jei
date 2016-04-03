@@ -314,6 +314,38 @@ string (`#to_json`).
 
 Top level objects can be added using the following options.
 
+* `:errors`: (`Array<Hash<Symbol, Object>>`) An array of
+  [error objects][error-objects]. Setting this prevents the primary data
+  member from being added to the document.
+
+    ```ruby
+    artist = Artist.new(id: 1, name: '')
+
+    errors = [{
+      status: '422',
+      source: {
+        pointer: '/data/attributes/name'
+      },
+      detail: "Name can't be blank"
+    }]
+
+    Jei::Document.build(artist, errors: errors)
+    ```
+
+    ```json
+    {
+      "errors": [{
+        "status": "422",
+        "source": {
+          "pointer": "/data/attributes/name"
+        },
+        "detail": "Name can't be blank"
+      }]
+    }
+    ```
+
+[error-objects]: http://jsonapi.org/format/1.0/#error-objects
+
 * `:fields`: (`Hash<String, String>`) A map of resource type-fields that define
   sparse fieldsets. Keys are resource types, and fields are a comma-separated
   list of field names. For example, `{ 'artists' => 'name,albums', 'albums' =>
