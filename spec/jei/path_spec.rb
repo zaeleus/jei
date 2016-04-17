@@ -78,6 +78,22 @@ module Jei
           path.walk(serializer, serializers)
         }.to raise_error(Path::NameError)
       end
+
+      it 'tags serializers with required relationship linkages' do
+        a1 = A.new(id: 1)
+
+        serializer_class = Class.new(Serializer) do
+          has_many :bs, data: false
+        end
+
+        serializer = serializer_class.new(a1)
+        serializers = Set.new
+
+        path = Path.new([:bs])
+        path.walk(serializer, serializers)
+
+        expect(serializer.options[:linkages]).to include(:bs)
+      end
     end
   end
 end

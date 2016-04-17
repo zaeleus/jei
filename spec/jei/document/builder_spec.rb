@@ -464,22 +464,25 @@ module Jei
         context 'the relationship is invalid' do
           it 'raises an ArgumentError' do
             relationship = Relationship.new(:albums)
+            serializer = Serializer.new(Artist.new(id: 1, albums: []))
 
             expect {
-              Builder.build_relationship({}, relationship, nil)
+              Builder.build_relationship({}, relationship, serializer)
             }.to raise_error(ArgumentError)
           end
         end
 
         context 'relationship.options[:data] is false' do
-          it 'does not build resource links' do
-            artist = Artist.new(id: 1, albums: [])
+          let(:artist) { Artist.new(id: 1, albums: []) }
 
-            artist_serializer_class = Class.new(Serializer) do
+          let(:serializer_class) do
+            Class.new(Serializer) do
               has_many :albums, data: false
             end
+          end
 
-            serializer = artist_serializer_class.new(artist)
+          it 'does not build resource links' do
+            serializer = serializer_class.new(artist)
             relationship = serializer.relationships[:albums]
 
             root = {}
@@ -487,6 +490,24 @@ module Jei
 
             expected = {
               albums: {}
+            }
+
+            expect(root).to eq(expected)
+          end
+
+          it 'can be overridden if the serializer has the relationship tagged for full linkage' do
+            serializer = serializer_class.new(artist)
+            serializer.options[:linkages] = Set.new([:albums])
+
+            relationship = serializer.relationships[:albums]
+
+            root = {}
+            Builder.build_relationship(root, relationship, serializer)
+
+            expected = {
+              albums: {
+                data: []
+              }
             }
 
             expect(root).to eq(expected)

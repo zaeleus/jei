@@ -208,6 +208,9 @@ Each relationship object can be modified with the following options.
   building a data object with resource identifiers. Note that doing so does not
   emit a valid JSON API document unless a links or meta object is present.
 
+  To ensure full linkage, this option is overridden to `true` when the resource
+  is on the included relationship path.
+
     ```ruby
     class ArtistSerializer < Jei::Serializer
       has_many :albums, data: false

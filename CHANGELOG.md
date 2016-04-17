@@ -2,6 +2,8 @@
 
 ## HEAD
 
+* [CHANGE] Compound documents include full linkage. A relationship path
+  overrides a relationship's `:data` option.
 * [ADD] Add `:errors` document build option to override primary data with an
   array of error objects.
 * [CHANGE] Directly build a document rather than building and evaluating a

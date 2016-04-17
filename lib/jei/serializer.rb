@@ -62,8 +62,10 @@ module Jei
     end
 
     # @param [#id] resource
-    def initialize(resource)
+    # @param [Hash<Symbol, Object>] options
+    def initialize(resource, options = nil)
       @resource = resource
+      @options = options
     end
 
     # @return [String]
@@ -91,6 +93,11 @@ module Jei
     # @return [Array<Link>, nil]
     def links
       nil
+    end
+
+    # @return [Hash<Symbol, Object>]
+    def options
+      @options ||= {}
     end
 
     # @return [Array<String>]

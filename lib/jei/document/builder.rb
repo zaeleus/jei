@@ -74,14 +74,17 @@ module Jei
         serializer = Serializer.factory(resource, options[:serializer])
         fieldset = fieldsets[serializer.type]
 
+        if options[:include]
+          paths = Path.parse(options[:include])
+          serializers = Set.new
+          Path.find(paths, serializer, serializers)
+        end
+
         root = {}
         build_resource(root, serializer, fieldset)
         context[:data] = root
 
         if options[:include]
-          paths = Path.parse(options[:include])
-          serializers = Set.new
-          Path.find(paths, serializer, serializers)
           build_included(context, serializers, fieldsets)
         end
       end
@@ -199,7 +202,8 @@ module Jei
       def build_relationship(context, relationship, serializer)
         root = {}
 
-        if relationship.options[:data]
+        if relationship.options[:data] ||
+            override_data?(serializer.options[:linkages], relationship)
           case relationship
           when BelongsToRelationship
             build_belongs_to_relationship(root, relationship, serializer)
@@ -216,6 +220,10 @@ module Jei
         end
 
         context[relationship.name] = root
+      end
+
+      def override_data?(linkages, relationship)
+        linkages && linkages.include?(relationship.name)
       end
 
       # @see http://jsonapi.org/format/1.0/#document-resource-object-linkage

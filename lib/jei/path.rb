@@ -37,8 +37,15 @@ module Jei
       return if level >= @names.length
 
       name = @names[level]
+
       relationship = serializer.relationships[name]
       raise NameError, "invalid relationship name `#{name}'" unless relationship
+
+      unless relationship.options[:data]
+        serializer.options[:linkages] = Set.new unless serializer.options[:linkages]
+        serializer.options[:linkages] << name
+      end
+
       resources = [*relationship.evaluate(serializer)]
 
       resources.each do |resource|
