@@ -1,5 +1,8 @@
 # Jei
 
+[![Gem Version](https://badge.fury.io/rb/jei.svg)](https://badge.fury.io/rb/jei)
+[![Build Status](https://travis-ci.org/zaeleus/jei.svg?branch=master)](https://travis-ci.org/zaeleus/jei)
+
 **Jei** is a simple serializer for Ruby that formats a JSON document described
 by [JSON API][jsonapi].
 
