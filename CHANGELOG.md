@@ -2,6 +2,8 @@
 
 ## HEAD
 
+## 0.3.0 (2016-05-03)
+
 * [CHANGE] Compound documents include full linkage. A relationship path
   overrides a relationship's `:data` option.
 * [ADD] Add `:errors` document build option to override primary data with an
